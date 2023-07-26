@@ -12,17 +12,29 @@
                     "required": true,
                     "description": "The samples to process.",
                     "csv": {
-                        "sample": "name",
-                        "fastq_1": "input.1",
-                        "fastq_2": "input.2",
-                        "expected_cells": "expected_cells"
+                        "sample": {
+                            "property": "name",
+                            "user_override": false
+                        },
+                        "fastq_1": {
+                            "property": "input.1",
+                            "user_override": false
+                        },
+                        "fastq_2": {
+                            "property": "input.2",
+                            "user_override": false
+                        },
+                        "expected_cells": {
+                            "property": "name",
+                            "user_override": true
+                        }
                     }
                 }
             }
         },
         "genome_options": {
             "name": "Genome options",
-            "description": "The genome being aligned to.",
+            "description": "Options for genome reference input.",
             "advanced": false,
             "takes_genome": true,
             "properties": {
@@ -52,7 +64,6 @@
                 "kallisto_index": {
                     "name": "Kallisto Index",
                     "type": "file",
-                    "pattern": "",
                     "required": false,
                     "genome_output": {
                         "process": "KALLISTOBUSTOOLS_REF",
@@ -63,7 +74,6 @@
                 "cellranger_index": {
                     "name": "Cellranger Index",
                     "type": "file",
-                    "pattern": "",
                     "required": false,
                     "genome_output": {
                         "process": "CELLRANGER_MKREF",
@@ -74,36 +84,28 @@
                 "universc_index": {
                     "name": "Universc Index",
                     "type": "file",
-                    "pattern": "",
                     "required": false,
                     "genome_output": {
                         "process": "CELLRANGER_MKREF",
                         "filetype": ""
                     },
                     "description": "A genome index built with Cellranger."
-                },
+                }, 
                 "star_index": {
                     "name": "STAR Index",
                     "type": "file",
-                    "pattern": "",
                     "required": false,
-                    "genome_output": {
-                        "process": "STAR_GENOMEGENERATE",
-                        "filetype": ""
-                    },
                     "description": "A genome index built with STAR."
                 },
                 "salmon_index": {
                     "name": "Salmon Index",
                     "type": "file",
-                    "pattern": "",
                     "required": false,
                     "description": "A genome index built with Salmon."
                 },
                 "kallisto_gene_map": {
                     "name": "Kallisto Gene Map",
                     "type": "file",
-                    "pattern": "",
                     "required": false,
                     "description": "A genome index built with Salmon."
                 }
@@ -116,22 +118,25 @@
             "properties": {
                 "aligner": {
                     "name": "Aligner",
-                    "description": "Name of the tool to use for scRNA (pseudo-) alignment. ['kallisto', 'star', 'alevin', 'cellranger', 'universc']",
+                    "description": "Name of the tool to use for scRNA alignment.",
                     "type": "string",
                     "default": "alevin",
-                    "required": true
+                    "required": true,
+                    "valid": ["kallisto", "star", "alevin", "cellranger", "universc"]
                 },
                 "protocol": {
                     "name": "Protocol",
-                    "description": "The protocol that was used to generate the single cell data. ['10XV3', '10XV2', '10XV1', 'dropseq']",
+                    "description": "The protocol that was used to generate the single cell data.",
                     "type": "string",
                     "default": "10XV3",
-                    "required": true
+                    "required": true,
+                    "valid": ["10XV3", "10XV2", "10XV1", "dropseq"]
                 },
                 "barcode_whitelist": {
                     "name": "Barcode Whitelist",
                     "description": "If not using the 10X Genomics platform, a custom barcode whitelist can be used",
-                    "type": "file"
+                    "type": "file",
+                    "required": false
                 }
             }
         },
@@ -153,7 +158,7 @@
                     "required": false
                 },
                 "multiqc_methods_description": {
-                    "name": "multiqc_methods_description",
+                    "name": "MultiQC Methods Description",
                     "description": "Custom MultiQC yaml file containing HTML including a methods description.",
                     "type": "string",
                     "required": false
@@ -167,17 +172,19 @@
             "properties": {
                 "kb_workflow": {
                     "name": "KB Workflow",
-                    "description": "Type of workflow. Use `lamanno` for RNA velocity based on La Manno et al. 2018 logic. Use `nucleus` for RNA velocity on single-nucleus RNA-seq reads. Use `kite` for feature barcoding. Use `kite: 10xFB` for 10x Genomics Feature Barcoding technology. ['standard', 'lamanno', 'nucleus', 'kite', 'kite: 10xFB']",
+                    "description": "Type of workflow. Use `lamanno` for RNA velocity based on La Manno et al. 2018 logic. Use `nucleus` for RNA velocity on single-nucleus RNA-seq reads. Use `kite` for feature barcoding. Use `kite: 10xFB` for 10x Genomics Feature Barcoding technology.",
                     "type": "string",
                     "default": "standard",
-                    "required": false
+                    "required": false,
+                    "valid": ["standard", "lamanno", "nucleus", "kite", "kite: 10xFB"]
                 },
                 "star_feature": {
                     "name": "Star Feature",
-                    "description": "Quantification type of different transcriptomic feature. Use `GeneFull` on pre-mRNA count for single-nucleus RNA-seq reads. Use `Gene Velocyto` to generate RNA velocity matrix. ['Gene', 'GeneFull', 'Gene Velocyto']",
+                    "description": "Quantification type of different transcriptomic feature. Use `GeneFull` on pre-mRNA count for single-nucleus RNA-seq reads. Use `Gene Velocyto` to generate RNA velocity matrix.",
                     "type": "string",
                     "default": "Gene",
-                    "required": false
+                    "required": false,
+                    "valid": ["Gene", "GeneFull", "Gene Velocyto"]
                 },
                 "universc_technology": {
                     "name": "Universc Technology",
