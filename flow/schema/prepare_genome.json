@@ -41,7 +41,7 @@
             "name": "Kallisto Index",
             "description": "A genome index which Kallisto can align reads to.",
             "process": "KALLISTOBUSTOOLS_REF",
-            "filetype": ""
+            "filetype": "idx"
         },
         {
             "name": "Star Index",
