@@ -90,7 +90,7 @@
                         "filetype": ""
                     },
                     "description": "A genome index built with Cellranger."
-                }, 
+                },
                 "star_index": {
                     "name": "STAR Index",
                     "type": "file",
