@@ -25,7 +25,7 @@
                             "user_override": false
                         },
                         "expected_cells": {
-                            "property": "name",
+                            "property": "expected_cells",
                             "user_override": true
                         }
                     }
