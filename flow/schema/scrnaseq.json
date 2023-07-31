@@ -67,7 +67,7 @@
                     "required": false,
                     "genome_output": {
                         "process": "KALLISTOBUSTOOLS_REF",
-                        "filetype": ""
+                        "filetype": "idx"
                     },
                     "description": "A genome index built with Kallisto."
                 },
@@ -95,6 +95,10 @@
                     "name": "STAR Index",
                     "type": "file",
                     "required": false,
+                    "genome_output": {
+                        "process": "STAR_GENOMEGENERATE",
+                        "filetype": ""
+                    },
                     "description": "A genome index built with STAR."
                 },
                 "salmon_index": {
