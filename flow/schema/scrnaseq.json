@@ -124,7 +124,7 @@
                     "name": "Aligner",
                     "description": "Name of the tool to use for scRNA alignment.",
                     "type": "string",
-                    "default": "alevin",
+                    "default": "cellranger",
                     "required": true,
                     "valid": ["kallisto", "star", "alevin", "cellranger", "universc"]
                 },
