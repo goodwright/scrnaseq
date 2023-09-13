@@ -1,0 +1,5 @@
+seq_center
+skip_fastqc
+skip_multiqc
+star_ignore_sjdbgtf
+save_reference

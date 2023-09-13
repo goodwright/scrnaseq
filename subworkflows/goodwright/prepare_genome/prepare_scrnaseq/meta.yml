@@ -1,0 +1,48 @@
+name: prepare_scrnaseq
+description: Prepares genome reference files for nf-core/scrnaseq.
+keywords:
+  - fasta
+  - gtf
+  - kb_workflow
+modules:
+  - nf-core/gunzip
+  - nf-core/cellranger/mkgtf
+  - nf-core/cellranger/mkref
+  - nf-core/kallistobustools/ref
+  - nf-core/star/genomegenerate
+input:
+  - fasta:
+      type: file
+      description: genome fasta file
+      pattern: "*.{fasta,fasta.gz}"
+  - gtf:
+      type: file
+      description: genome gtf annotation file
+      pattern: "*.{gtf,gtf.gz}"
+  - kb_workflow:
+      type: string
+      description: kb_workflow
+output:
+  - meta:
+      type: map
+      description: |
+        Groovy Map containing sample information
+        e.g. [ id:'test', single_end:false ]
+  - cellranger_index:
+      type: file
+      description: Cellranger Index
+      pattern: ""
+  - kallisto_index:
+      type: file
+      description: Kallisto Index
+      pattern: ""
+  - star_index:
+      type: file
+      description: Star Index
+      pattern: ""
+  - versions:
+      type: file
+      description: File containing software versions
+      pattern: "versions.yml"
+authors:
+  - "@chris-cheshire"

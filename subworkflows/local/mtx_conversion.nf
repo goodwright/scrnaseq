@@ -15,6 +15,15 @@ workflow MTX_CONVERSION {
         ch_versions = Channel.empty()
 
         //
+        // Filter cell ranger output array to prevent file collisions
+        //
+        if(params.aligner == "cellranger") {
+            mtx_matrices = mtx_matrices.map {
+                [it[0], it[1].findAll { path -> path.toString().contains("filtered_feature_bc_matrix") }]
+            }
+        }
+
+        //
         // Convert matrix to h5ad
         //
         MTX_TO_H5AD (

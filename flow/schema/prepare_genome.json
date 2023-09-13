@@ -1,0 +1,53 @@
+{
+    "inputs": {
+        "file_options": {
+            "name": "File options",
+            "description": "Files needed to build the genome.",
+            "properties": {
+                "fasta": {
+                    "name": "FASTA",
+                    "type": "file",
+                    "pattern": "^\\S+\\.fn?a(sta)?(\\.gz)?$",
+                    "genome_file": "fasta",
+                    "required": true,
+                    "description": "A raw genome FASTA file."
+                },
+                "gtf": {
+                    "name": "GTF",
+                    "type": "file",
+                    "pattern": "^\\S+\\.gtf(\\.gz)?$",
+                    "genome_file": "gtf",
+                    "required": true,
+                    "description": "An annotation for the genome."
+                },
+                "save_reference": {
+                    "name": "Save Reference",
+                    "type": "hidden",
+                    "default": "true",
+                    "required": true,
+                    "description": "."
+                }
+            }
+        }
+    },
+    "outputs": [
+        {
+            "name": "Cellranger Index",
+            "description": "A genome index which Cellranger can align reads to.",
+            "process": "CELLRANGER_MKREF",
+            "filetype": ""
+        },
+        {
+            "name": "Kallisto Index",
+            "description": "A genome index which Kallisto can align reads to.",
+            "process": "KALLISTOBUSTOOLS_REF",
+            "filetype": "idx"
+        },
+        {
+            "name": "Star Index",
+            "description": "A genome index which STAR can align reads to.",
+            "process": "STAR_GENOMEGENERATE",
+            "filetype": ""
+        }
+    ]
+}
