@@ -126,7 +126,7 @@
                     "type": "string",
                     "default": "cellranger",
                     "required": true,
-                    "valid": ["kallisto", "star", "alevin", "cellranger", "universc"]
+                    "valid": ["cellranger"]
                 },
                 "protocol": {
                     "name": "Protocol",
