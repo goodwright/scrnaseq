@@ -10,6 +10,7 @@
                     "type": "sample",
                     "pattern": "csv|xlsx",
                     "required": true,
+                    "categories": ["scRNA-Seq"],
                     "description": "The samples to process.",
                     "csv": {
                         "sample": {
