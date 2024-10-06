@@ -1,22 +1,24 @@
 {
-    "inputs": {
-        "file_options": {
+    "inputs": [
+        {
             "name": "File options",
             "description": "Files needed to build the genome.",
-            "properties": {
+            "from_fileset": true,
+            "fileset_requires_organism": true,
+            "params": {
                 "fasta": {
                     "name": "FASTA",
-                    "type": "file",
+                    "type": "data",
                     "pattern": "^\\S+\\.fn?a(sta)?(\\.gz)?$",
-                    "genome_file": "fasta",
+                    "fileset_pattern": "^\\S+\\.fn?a(sta)?(\\.gz)?$",
                     "required": true,
                     "description": "A raw genome FASTA file."
                 },
                 "gtf": {
                     "name": "GTF",
-                    "type": "file",
+                    "type": "data",
                     "pattern": "^\\S+\\.gtf(\\.gz)?$",
-                    "genome_file": "gtf",
+                    "fileset_pattern": "^\\S+\\.gtf(\\.gz)?$",
                     "required": true,
                     "description": "An annotation for the genome."
                 },
@@ -29,7 +31,7 @@
                 }
             }
         }
-    },
+    ],
     "outputs": [
         {
             "name": "Cellranger Index",
