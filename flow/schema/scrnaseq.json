@@ -1,92 +1,108 @@
 {
-    "inputs": {
-        "sample_options": {
+    "inputs": [
+        {
             "name": "Sample options",
             "description": "Parameters relating to the sample being analysed.",
             "advanced": false,
-            "properties": {
+            "params": {
                 "input": {
                     "name": "Samples",
-                    "type": "sample",
-                    "pattern": "csv|xlsx",
-                    "required": true,
-                    "categories": ["scRNA-Seq"],
                     "description": "The samples to process.",
-                    "csv": {
-                        "sample": {
-                            "property": "name",
-                            "user_override": false
+                    "required": true,
+                    "type": "csv",
+                    "takes_samples": true,
+                    "sample_types": ["scRNA-Seq"],
+                    "columns": [
+                        {
+                            "name": "sample",
+                            "type": "string",
+                            "from_sample": "name",
+                            "required": true,
+                            "render": false
                         },
-                        "fastq_1": {
-                            "property": "input.1",
-                            "user_override": false
+                        {
+                            "name": "fastq_1",
+                            "type": "data",
+                            "from_sample": 1,
+                            "required": true,
+                            "render": false
                         },
-                        "fastq_2": {
-                            "property": "input.2",
-                            "user_override": false
+                        {
+                            "name": "fastq_2",
+                            "type": "data",
+                            "from_sample": 2,
+                            "required": false,
+                            "render": false
                         },
-                        "expected_cells": {
-                            "property": "expected_cells",
-                            "user_override": true
+                        {
+                            "name": "expected_cells",
+                            "type": "string",
+                            "render": true
                         }
-                    }
+                    ]
                 }
             }
         },
-        "genome_options": {
+        {
             "name": "Genome options",
             "description": "Options for genome reference input.",
             "advanced": false,
-            "takes_genome": true,
-            "properties": {
+            "from_execution": true,
+            "params": {
                 "fasta": {
                     "name": "FASTA",
-                    "type": "file",
+                    "type": "data",
                     "pattern": "^\\S+\\.fn?a(sta)?(\\.gz)?$",
                     "required": true,
-                    "genome_file": "fasta",
+                    "execution_output": {
+                        "process": null,
+                        "pattern": "^\\S+\\.fn?a(sta)?(\\.gz)?$"
+                    },
                     "description": "A raw genome FASTA file."
                 },
                 "gtf": {
                     "name": "GTF",
-                    "type": "file",
+                    "type": "data",
                     "pattern": "^\\S+\\.gtf(\\.gz)?$",
                     "required": true,
-                    "genome_file": "gtf",
+                    "execution_output": {
+                        "process": null,
+                        "pattern": "^\\S+\\.gtf(\\.gz)?$"
+                    },
                     "description": "An annotation for the genome."
                 },
                 "transcript_fasta": {
                     "name": "Transcript FASTA",
-                    "type": "file",
+                    "type": "data",
                     "pattern": "fasta|fa$",
                     "required": false,
-                    "description": "FASTA transcriptome file"
+                    "description": "FASTA transcriptome file."
                 },
                 "kallisto_index": {
                     "name": "Kallisto Index",
-                    "type": "file",
+                    "type": "data",
                     "required": false,
-                    "genome_output": {
+                    "execution_output": {
                         "process": "KALLISTOBUSTOOLS_REF",
-                        "filetype": "idx"
+                        "pattern": "idx"
                     },
                     "description": "A genome index built with Kallisto."
                 },
                 "cellranger_index": {
                     "name": "Cellranger Index",
-                    "type": "file",
+                    "type": "data",
                     "required": false,
-                    "genome_output": {
+                    "execution_output": {
                         "process": "CELLRANGER_MKREF",
-                        "filetype": ""
+                        "pattern": ""
                     },
                     "description": "A genome index built with Cellranger."
                 },
                 "universc_index": {
                     "name": "Universc Index",
-                    "type": "file",
+                    "type": "data",
                     "required": false,
-                    "genome_output": {
+                    "execution_output": {
                         "process": "CELLRANGER_MKREF",
                         "filetype": ""
                     },
@@ -94,9 +110,9 @@
                 },
                 "star_index": {
                     "name": "STAR Index",
-                    "type": "file",
+                    "type": "data",
                     "required": false,
-                    "genome_output": {
+                    "execution_output": {
                         "process": "STAR_GENOMEGENERATE",
                         "filetype": ""
                     },
@@ -104,23 +120,23 @@
                 },
                 "salmon_index": {
                     "name": "Salmon Index",
-                    "type": "file",
+                    "type": "data",
                     "required": false,
                     "description": "A genome index built with Salmon."
                 },
                 "kallisto_gene_map": {
                     "name": "Kallisto Gene Map",
-                    "type": "file",
+                    "type": "data",
                     "required": false,
                     "description": "A genome index built with Salmon."
                 }
             }
         },
-        "pipeline_mode": {
+        {
             "name": "Pipeline Mode",
             "description": "Settings to control the primary mode of the pipeline",
             "advanced": false,
-            "properties": {
+            "params": {
                 "aligner": {
                     "name": "Aligner",
                     "description": "Name of the tool to use for scRNA alignment.",
@@ -140,41 +156,29 @@
                 "barcode_whitelist": {
                     "name": "Barcode Whitelist",
                     "description": "If not using the 10X Genomics platform, a custom barcode whitelist can be used",
-                    "type": "file",
+                    "type": "data",
                     "required": false
                 }
             }
         },
-        "pipeline_options": {
+        {
             "name": "General pipeline options",
             "description": "Settings to control general pipeline options.",
             "advanced": true,
-            "properties": {
-                "email": {
-                    "name": "Email",
-                    "description": "Email address for completion summary.",
-                    "type": "string",
-                    "required": false
-                },
+            "params": {
                 "multiqc_title": {
                     "name": "MultiQC Report Title",
                     "description": "MultiQC report title. Printed as page header, used for filename if not otherwise specified.",
                     "type": "string",
                     "required": false
-                },
-                "multiqc_methods_description": {
-                    "name": "MultiQC Methods Description",
-                    "description": "Custom MultiQC yaml file containing HTML including a methods description.",
-                    "type": "string",
-                    "required": false
                 }
             }
         },
-        "aligner_options": {
+        {
             "name": "Aligner Options",
             "description": "Settings to control options for configured aligners.",
             "advanced": true,
-            "properties": {
+            "params": {
                 "kb_workflow": {
                     "name": "KB Workflow",
                     "description": "Type of workflow. Use `lamanno` for RNA velocity based on La Manno et al. 2018 logic. Use `nucleus` for RNA velocity on single-nucleus RNA-seq reads. Use `kite` for feature barcoding. Use `kite: 10xFB` for 10x Genomics Feature Barcoding technology.",
@@ -201,7 +205,7 @@
                 "txp2gene": {
                     "name": "txp2gene",
                     "description": "Path to transcript to gene mapping file. This allows the specification of a transcript to gene mapping file for Salmon Alevin and AlevinQC.",
-                    "type": "file",
+                    "type": "data",
                     "required": false
                 },
                 "simpleaf_rlen": {
@@ -213,7 +217,7 @@
                 }
             }
         }
-    },
+    ],
     "outputs": [
         {
             "name": "MultiQC report",
